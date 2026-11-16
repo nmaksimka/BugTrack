@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: bugtrack
+  datasource:
+    url: jdbc:postgresql://localhost:5433/bugtrack
+    username: bugtrack
+    password: bugtrack
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+  docker:
+    compose:
+      lifecycle-management: start-only
+  mail:
+    host: localhost
+    port: 1025
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 50MB
+
+bugtrack:
+  demo-data: true
+  mail-from: bugtrack@localhost
+  base-url: http://localhost:8080
+  storage-dir: ./storage

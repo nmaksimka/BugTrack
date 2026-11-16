@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:17.6
+    environment:
+      POSTGRES_DB: bugtrack
+      POSTGRES_USER: bugtrack
+      POSTGRES_PASSWORD: bugtrack
+    ports:
+      - "5433:5432"
+    volumes:
+      - bugtrack-db:/var/lib/postgresql/data
+
+  mailpit:
+    image: axllent/mailpit:v1.27
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+volumes:
+  bugtrack-db:
