@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Регистрация')}"></head>
+<body class="auth-page">
+<main class="auth">
+    <div class="auth-brand">BugTrack</div>
+    <h1>Регистрация</h1>
+    <p class="subtitle">Создайте учётную запись, чтобы работать с проектами</p>
+
+    <section class="panel">
+        <h2>Новый пользователь</h2>
+        <form th:action="@{/register}" th:object="${form}" method="post" class="form" novalidate>
+            <label class="field" th:classappend="${#fields.hasErrors('name')} ? 'invalid'">
+                <span>Имя</span>
+                <input type="text" th:field="*{name}" placeholder="Анна Смирнова">
+                <small th:errors="*{name}"></small>
+            </label>
+            <label class="field" th:classappend="${#fields.hasErrors('email')} ? 'invalid'">
+                <span>Почта</span>
+                <input type="email" th:field="*{email}" placeholder="anna@example.ru">
+                <small th:errors="*{email}"></small>
+            </label>
+            <label class="field" th:classappend="${#fields.hasErrors('password')} ? 'invalid'">
+                <span>Пароль</span>
+                <input type="password" th:field="*{password}" placeholder="Не меньше 8 символов">
+                <small th:errors="*{password}"></small>
+            </label>
+            <div class="actions">
+                <button type="submit" class="btn primary">Зарегистрироваться</button>
+                <a class="btn" th:href="@{/login}">У меня есть аккаунт</a>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

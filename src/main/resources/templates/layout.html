@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' · BugTrack'">BugTrack</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" th:href="@{/favicon.svg}" type="image/svg+xml">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+
+<aside th:fragment="sidebar(project, active)" class="sidebar">
+    <a class="brand" th:href="@{/projects}">BugTrack</a>
+    <nav class="nav">
+        <a th:href="@{/projects}" th:classappend="${active == 'projects'} ? 'active'">Проекты</a>
+        <th:block th:if="${project != null}">
+            <a th:href="@{/projects/{id}/bugs(id=${project.id})}" th:classappend="${active == 'bugs'} ? 'active'">Баги</a>
+            <a th:href="@{/projects/{id}/board(id=${project.id})}" th:classappend="${active == 'board'} ? 'active'">Доска</a>
+            <a th:href="@{/projects/{id}/releases(id=${project.id})}" th:classappend="${active == 'releases'} ? 'active'">Релизы</a>
+            <a th:href="@{/projects/{id}(id=${project.id})}" th:classappend="${active == 'members'} ? 'active'">Участники</a>
+            <a th:href="@{/projects/{id}/report(id=${project.id})}" th:classappend="${active == 'report'} ? 'active'">Отчёт</a>
+        </th:block>
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/users}"
+           th:classappend="${active == 'admin'} ? 'active'">Администрирование</a>
+    </nav>
+    <div class="sidebar-footer">
+        <a class="notif" th:href="@{/notifications}">
+            Уведомления <span class="badge" th:if="${unreadNotifications > 0}" th:text="${unreadNotifications}">2</span>
+        </a>
+        <div class="me" sec:authentication="principal.name">Анна Смирнова</div>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="link-button">Выйти</button>
+        </form>
+    </div>
+</aside>
+
+</body>
+</html>
