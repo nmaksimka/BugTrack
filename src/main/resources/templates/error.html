@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ошибка · BugTrack</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="auth-page">
+<main class="auth">
+    <div class="auth-brand">BugTrack</div>
+    <h1 th:text="${status == 404} ? 'Страница пока недоступна' : 'Что-то пошло не так'">Ошибка</h1>
+    <p class="subtitle" th:text="${status == 404} ? 'Этот раздел ещё в разработке или адрес неверный.' : 'Попробуйте обновить страницу.'">Описание</p>
+    <a class="btn primary" th:href="@{/projects}">К проектам</a>
+</main>
+</body>
+</html>

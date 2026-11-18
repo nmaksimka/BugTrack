@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(${title})}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{layout :: sidebar(null, '')}"></aside>
+    <main class="content">
+        <h1 th:text="${title}">Нет доступа</h1>
+        <p class="subtitle" th:text="${message}">У вас нет доступа к этому проекту</p>
+        <a class="btn primary" th:href="@{/projects}">К проектам</a>
+    </main>
+</div>
+</body>
+</html>

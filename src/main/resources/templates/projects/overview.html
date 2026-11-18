@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(${project.name})}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{layout :: sidebar(${project}, 'members')}"></aside>
+    <main class="content">
+        <div class="crumb" th:text="${project.name}">Веб-портал</div>
+        <h1>Участники и настройки</h1>
+        <p class="subtitle">Команда проекта</p>
+
+        <div class="columns">
+            <section class="panel">
+                <h2>Проект</h2>
+                <dl class="facts">
+                    <dt>Название / ключ</dt>
+                    <dd><span th:text="${project.name}">Веб-портал</span> · <span class="key" th:text="${project.key}">BT</span></dd>
+                    <dt>Описание</dt>
+                    <dd th:text="${project.description} ?: '—'">Клиентский веб-портал</dd>
+                    <dt>Репозиторий</dt>
+                    <dd>
+                        <a th:if="${project.repository != null}" th:href="${project.repository}"
+                           th:text="${project.repository}" target="_blank" rel="noopener">ссылка</a>
+                        <span th:unless="${project.repository != null}">—</span>
+                    </dd>
+                    <dt>Дедлайн проекта</dt>
+                    <dd th:text="${project.deadline != null} ? ${#temporals.format(project.deadline, 'd MMMM yyyy')} : '—'">30 ноября 2026</dd>
+                    <dt>Открытых багов</dt>
+                    <dd th:text="${project.openBugs}">12</dd>
+                </dl>
+            </section>
+
+            <section class="panel">
+                <h2>Участники</h2>
+                <div class="row" th:each="m : ${project.members}">
+                    <span class="row-title" th:text="${m.name}">Мария</span>
+                    <span class="row-meta">
+                        <span th:text="${m.email}">maria@bugtrack.local</span>
+                        <span class="roles">
+                            <span class="chip" th:each="r : ${m.roles}" th:text="${r.title}">Руководитель проекта</span>
+                        </span>
+                    </span>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

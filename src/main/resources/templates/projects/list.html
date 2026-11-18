@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Проекты')}"></head>
+<body>
+<div class="app">
+    <aside th:replace="~{layout :: sidebar(null, 'projects')}"></aside>
+    <main class="content">
+        <div class="crumb">Рабочее пространство</div>
+        <h1>Проекты</h1>
+        <p class="subtitle">Выберите проект или создайте новый</p>
+
+        <div class="columns">
+            <section class="panel">
+                <h2>Ваши проекты</h2>
+                <div class="empty" th:if="${projects.isEmpty()}">
+                    Вы пока не участвуете ни в одном проекте. Создайте проект или попросите руководителя добавить вас.
+                </div>
+                <a class="row-link" th:each="p : ${projects}" th:href="@{/projects/{id}(id=${p.id})}">
+                    <span class="row-title">
+                        <span th:text="${p.name}">Веб-портал</span>
+                        <span class="key" th:text="${p.key}">BT</span>
+                    </span>
+                    <span class="row-meta">
+                        <span th:text="${p.openBugs} + ' открытых багов'">12 открытых багов</span>
+                        <span th:if="${p.deadline != null}"
+                              th:text="'срок ' + ${#temporals.format(p.deadline, 'd MMMM yyyy')}">срок 30 ноября</span>
+                        <span class="roles">
+                            <span class="chip" th:each="r : ${p.myRoles}" th:text="${r.title}">Тестировщик</span>
+                        </span>
+                    </span>
+                </a>
+            </section>
+
+            <section class="panel">
+                <h2>Новый проект</h2>
+                <form th:action="@{/projects}" th:object="${form}" method="post" class="form" novalidate>
+                    <div class="field-row">
+                        <label class="field grow" th:classappend="${#fields.hasErrors('name')} ? 'invalid'">
+                            <span>Название</span>
+                            <input type="text" th:field="*{name}" placeholder="Веб-портал">
+                            <small th:errors="*{name}"></small>
+                        </label>
+                        <label class="field key-field" th:classappend="${#fields.hasErrors('key')} ? 'invalid'">
+                            <span>Ключ</span>
+                            <input type="text" th:field="*{key}" placeholder="BT" maxlength="10">
+                            <small th:errors="*{key}"></small>
+                        </label>
+                    </div>
+                    <label class="field" th:classappend="${#fields.hasErrors('description')} ? 'invalid'">
+                        <span>Описание</span>
+                        <textarea th:field="*{description}" rows="3" placeholder="Клиентский веб-портал"></textarea>
+                        <small th:errors="*{description}"></small>
+                    </label>
+                    <label class="field" th:classappend="${#fields.hasErrors('repository')} ? 'invalid'">
+                        <span>Репозиторий</span>
+                        <input type="url" th:field="*{repository}" placeholder="https://github.com/...">
+                        <small th:errors="*{repository}"></small>
+                    </label>
+                    <label class="field" th:classappend="${#fields.hasErrors('deadline')} ? 'invalid'">
+                        <span>Срок проекта</span>
+                        <input type="date" th:field="*{deadline}">
+                        <small th:errors="*{deadline}"></small>
+                    </label>
+                    <div class="actions">
+                        <button type="submit" class="btn primary">Создать проект</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>
